@@ -5,7 +5,8 @@ const searchBook = async () => {
 
     // Error handling on load data
     if (searchText === '') {
-        alert('nai')
+        displayMessage('error', 'text-danger', 'hiii');
+       
     } else {
         toggleSpinner('visible');
         toggleDisplayResult('hidden');
@@ -29,27 +30,41 @@ const toggleDisplayResult = (resultValue) => {
     document.getElementById('search-result').style.visibility = resultValue;
 }
 
-// display function
-const displayBookResult = (bookData) => {
-    // displaying total result
-    const totalSearchResult = document.getElementById('total-result');
+const error = (errorValue) => {
+    document.getElementById('error').style.display = errorValue;
+
+}
+
+// displaying total result & error message function
+const displayMessage = (id, style, value) => {
+    const totalSearchResult = document.getElementById(id);
     totalSearchResult.textContent = '';
     const resultDiv = document.createElement('div');
-    resultDiv.innerHTML = `<h5 class=" text-center text-success fw-bold mb-5 " >Total ${searchText.toUpperCase()} Book found ${bookData.length}...</h5>`;
+    resultDiv.innerHTML = `<h5 class=" text-center ${style} fw-bold mb-3 " >${value} `;
     totalSearchResult.appendChild(resultDiv);
+    return totalSearchResult;
+
+}
+
+// display function
+const displayBookResult = (bookData) => {
 
     // Error handling on searched books
     if (bookData.length === 0) {
-        alert('the searching book is not exist');
-    }
-
-    // to find the searched books
-    const searchResult = document.getElementById('search-result');
-    searchResult.textContent = '';
-    bookData.slice(0, 21).forEach((book) => {
-        const div = document.createElement('div');
-        div.classList.add('col');
-        div.innerHTML = `
+        displayMessage('error', 'text-danger', `Book does not exist,, please try again`);
+        // toggleDisplayResult('hidden');
+    } else {
+        // displaying total result
+        const totalValue = `Total ${searchText.toUpperCase()} Book found ${bookData.length}...</h5>`;
+        displayMessage('total-result', 'text-success', totalValue);        
+        error('none');
+        // to find the searched books
+        const searchResult = document.getElementById('search-result');
+        searchResult.textContent = '';
+        bookData.slice(0, 21).forEach((book) => {
+            const div = document.createElement('div');
+            div.classList.add('col');
+            div.innerHTML = `
         <div class="card mb-3 h-100 p-3 shadow" style="max-width: 450px;">
             <div class="row g-0">
                <div class="col-md-4 ">
@@ -66,9 +81,9 @@ const displayBookResult = (bookData) => {
             </div>
         </div>
         `;
-        searchResult.appendChild(div);
-    });
-
+            searchResult.appendChild(div);
+        });
+    }
     toggleSpinner('hidden')
     toggleDisplayResult('visible');
 }
