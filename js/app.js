@@ -7,7 +7,7 @@ const searchBook = async () => {
 
     // Error handling on loaded data
     if (searchText === '') {
-        displayMessage('error','text-danger','If you want to get your desire books? write the name of it on search box...');
+        displayMessage('error', 'text-danger', 'If you want to get your desire books? write the name of it on search box...');
         document.getElementById('total-result').textContent = '';
         document.getElementById('search-result').textContent = '';
 
@@ -48,14 +48,12 @@ const displayBookResult = (bookData) => {
     const totalResultMessage = `Total ${searchText.toUpperCase()} book found ${bookData.length}...</h5>`;
     displayMessage('total-result', 'text-success', totalResultMessage);
 
-
     // Error handling on searched books
     if (bookData.length === 0) {
-         displayMessage('error','text-danger','Books are not exist,,,please try again');
+        displayMessage('error', 'text-danger', 'Books are not exist,,,please try again');
         document.getElementById('total-result').textContent = '';
-        
-    }
 
+    }
 
     // to find the searched books
     const searchResult = document.getElementById('search-result');
